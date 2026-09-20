@@ -7,13 +7,18 @@
   },
   "scripts": {
     "dev": "nuxt dev",
-    "build": "nuxt build",
+    "build": "npm run format:check && nuxt build",
     "preview": "nuxt preview",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
     "nuxt": "^4.5.2",
     "vue": "^3.5.43",
     "vue-router": "^5.3.1"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.8"
   }
 }
