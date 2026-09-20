@@ -1,6 +1,9 @@
 @import 'tailwindcss';
+@import './tokens.css';
 
 body {
+  background-color: var(--color-page);
+  color: var(--color-body);
   -webkit-font-smoothing: antialiased;
 }
 

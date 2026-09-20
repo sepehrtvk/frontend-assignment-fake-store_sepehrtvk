@@ -1,0 +1,24 @@
+@theme {
+  --color-brand: #e20054;
+  --color-brand-soft: #fce5ee;
+
+  --color-title: #0a2a51;
+  --color-body: #253343;
+  --color-label: #445a74;
+  --color-muted: #647e9a;
+  --color-placeholder: #7a90aa;
+  --color-badge: #141928;
+
+  --color-control: #b2c2d6;
+  --color-line: #e9edf5;
+  --color-line-strong: #d0ddec;
+
+  --color-page: #e9edf5;
+  --color-surface: #ffffff;
+  --color-sunken: #f5f7fa;
+
+  --radius-card: 24px;
+  --radius-chip: 16px;
+  --radius-control: 12px;
+  --radius-badge: 6px;
+}
