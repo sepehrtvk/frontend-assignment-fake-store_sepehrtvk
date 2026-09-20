@@ -34,6 +34,11 @@ const active = computed(() => activeFilterCount(filters.value))
 
 const sheetOpen = ref(false)
 
+useSeoMeta({
+  title: 'لیست محصولات',
+  description: 'فهرست محصولات فروشگاه با جستجو، فیلتر دسته بندی و مرتب سازی بر اساس امتیاز.',
+})
+
 function update(next: Filters) {
   router.push({ query: toQuery(next) })
 }

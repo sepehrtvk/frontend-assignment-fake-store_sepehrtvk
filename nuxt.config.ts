@@ -9,6 +9,8 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: { lang: 'fa', dir: 'rtl' },
+      titleTemplate: '%s | فروشگاه',
+      link: [{ rel: 'icon', href: '/favicon.svg' }],
     },
   },
   vite: {

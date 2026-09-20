@@ -14,6 +14,14 @@ const { data: product } = await useAsyncData(`product:${id}`, () =>
 if (!product.value) {
   throw createError({ statusCode: 404, statusMessage: 'این محصول پیدا نشد', fatal: true })
 }
+
+useSeoMeta({
+  title: product.value.title,
+  description: product.value.description,
+  ogTitle: product.value.title,
+  ogDescription: product.value.description,
+  ogImage: product.value.image,
+})
 </script>
 
 <template>
