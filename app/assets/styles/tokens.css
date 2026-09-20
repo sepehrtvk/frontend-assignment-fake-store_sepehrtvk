@@ -1,4 +1,6 @@
 @theme {
+  --font-sans: 'Vazirmatn', ui-sans-serif, system-ui, sans-serif;
+
   --color-brand: #e20054;
   --color-brand-soft: #fce5ee;
 
