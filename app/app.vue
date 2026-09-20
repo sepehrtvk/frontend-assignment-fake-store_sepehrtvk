@@ -5,6 +5,7 @@ import SiteHeader from '~/features/site/ui/SiteHeader.vue'
 
 <template>
   <NuxtRouteAnnouncer />
+  <NuxtLoadingIndicator color="#e20054" />
   <SiteHeader />
   <NuxtPage />
   <SiteFooter />
