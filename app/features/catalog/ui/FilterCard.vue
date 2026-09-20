@@ -10,7 +10,10 @@ defineProps<{ title: string }>()
       class="text-label flex list-none items-center justify-between text-[13px] font-medium [&::-webkit-details-marker]:hidden"
     >
       {{ title }}
-      <AppIcon name="chevron" class="text-muted transition-transform group-open:rotate-180" />
+      <AppIcon
+        name="chevron"
+        class="text-muted rotate-180 transition-transform group-open:rotate-0"
+      />
     </summary>
     <div class="pt-6">
       <slot />

@@ -21,7 +21,7 @@ const open = defineModel<boolean>('open', { required: true })
   >
     <div class="grid max-h-[85dvh] grid-rows-[auto_1fr_auto]">
       <div class="bg-surface flex items-center justify-between p-4">
-        <span class="text-title font-bold">فیلتر و جستجو</span>
+        <span class="text-title font-bold">فیلترها</span>
         <IconButton
           name="close"
           label="بستن فیلترها"
