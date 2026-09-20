@@ -17,3 +17,7 @@ summary {
 button:disabled {
   cursor: not-allowed;
 }
+
+html:has(dialog[open]) {
+  overflow: hidden;
+}
