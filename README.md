@@ -1,0 +1,148 @@
+# Fake Store
+
+A product list and product detail page built with **Nuxt 4**, **Vue 3** and **TypeScript**,
+matching the Figma design and backed by the [Fake Store API](https://fakestoreapi.com).
+The interface is Persian and right-to-left, as the design is.
+
+![Product list](screenshots/list-desktop.png)
+
+## Quick start
+
+```bash
+nvm use            # Nuxt 4.5 needs Node 22+, the version is in .nvmrc
+npm install
+npm run dev        # http://localhost:3000
+```
+
+| Script            | Purpose                                    |
+| ----------------- | ------------------------------------------ |
+| `npm run dev`     | dev server                                 |
+| `npm run build`   | format check, lint, type check, then build |
+| `npm run preview` | serve the production build                 |
+| `npm test`        | 128 tests across 19 files                  |
+
+## Docker
+
+```bash
+docker build -t fake-store .
+docker run -p 3000:3000 fake-store
+```
+
+Multi-stage: `node:22-alpine` builds, the same image runs Nitro's output. Rendering happens on
+the server, so the artifact is a server rather than a folder of files and there is no nginx.
+
+## Screens
+
+|                                                        |                                                 |
+| ------------------------------------------------------ | ----------------------------------------------- |
+| **Filtered** — removable chips for every active filter | **Detail** — the spec table from the design     |
+| ![Filtered](screenshots/list-filtered.png)             | ![Detail](screenshots/detail-desktop.png)       |
+| **Phone** — single column with a filter trigger        | **Menu** — a real dialog, not a menu-shaped div |
+| ![Phone](screenshots/list-mobile.png)                  | ![Menu](screenshots/mobile-menu.png)            |
+
+## Structure
+
+```
+app/
+  app.vue  error.vue                    shell and error page
+  assets/{fonts,icons,styles}/          fonts, Figma icons, design tokens
+  pages/index.vue                       product list
+  pages/products/[id].vue               product detail
+  features/
+    catalog/{api,model,ui}/             API client, filters, card, filter panel
+    product/ui/                         hero, specs, breadcrumb
+    site/ui/                            header, mobile menu, footer
+  shared/{lib,ui}/                      number formatting and ui primitives
+```
+
+Code is grouped by feature, not by file kind. `shared/` never imports from `features/`, features
+do not reach into each other, `ui/` stays presentational, `model/` holds the rules and `api/` is
+the only layer that knows about the network. No barrel files.
+
+The two directories Nuxt would auto-import, `components/` and `composables/`, are never created,
+so every import is greppable and every component mounts in tests without a Nuxt runtime. Nuxt's
+own composables are used only inside `pages/` and `app.vue`.
+
+## Technical decisions
+
+**Persian interface, English data.** The design is Persian and the brief names the API as the
+source of truth, so labels and states are Persian while product titles and descriptions render
+exactly as the API returns them. Translating them would be inventing content. English text inside
+the RTL page is marked `dir="ltr"` so its punctuation holds.
+
+**Filters live in the URL, not in a store.** `/?q=gold&category=jewelery&sort=rate-desc` is the
+whole state. A filtered view is shareable, the back button removes one filter instead of leaving
+the page, a refresh keeps it, and the server renders the filtered grid on first paint. Pinia is
+not installed; a store here would be a second source of truth that the back button desynchronises.
+
+**Search is submitted, not debounced, and matches titles only.** The design puts a «جستجو» button
+under the field, which settles it: no debounce, no cancelled request, one history entry per search.
+Searching descriptions would make "shirt" match half the catalogue for reasons the user cannot see.
+A Persian query returns nothing, because the data is English — that empty state is working correctly.
+
+**Filtering and sorting happen client-side.** The API has no search, `?sort` only orders by id, and
+all 20 products arrive in one response. A round trip per click would be slower and no more correct.
+Category counts are derived from that same payload rather than from `/products/categories`, so a
+badge can never disagree with the grid. Persian category names are a hand-written map keyed by the
+API's own slugs, its `jewelery` misspelling included.
+
+**Prices are dollars, not تومان.** The design shows تومان but the API's prices are USD, and
+converting them needs an exchange rate this app has no source for. Digits are Persian via `Intl`,
+which renders identically on the server and in the browser, so hydration matches.
+
+**The card shows price and rating, which the design omits.** The sidebar offers to sort by rating
+and by rating count; sorting by numbers the card never shows leaves the user watching the grid
+reshuffle for no visible reason.
+
+**Server-rendered, and a missing product is a real 404.** The detail page is the one worth sharing,
+so its title and image are in the HTML. Static generation was rejected because prices and ratings
+would freeze at build time. Asking the store for an id it does not have returns **200 with an empty
+body**, not 404, so `res.ok` proves nothing and not-found is decided on the parsed payload. There is
+no `server/api` proxy: the upstream is public, keyless and CORS-open.
+
+**The mobile menu and the filter sheet are both `<dialog>`.** `showModal()` provides the focus trap,
+Escape handling, an inert background and top-layer stacking, so none of it is hand-written. The
+Figma has no mobile frame for the list, so that layout is mine: one column, a filter trigger showing
+how many filters are active, and a bottom sheet rendering the **same `FilterPanel` the sidebar uses**,
+so the two cannot drift apart.
+
+**Fonts are substituted.** Yekan Bakh and IRANYekan are commercial and not redistributable.
+Vazirmatn (SIL OFL) is self-hosted in their place — two subsets, 80 KB, no CDN.
+
+**Chrome that leads nowhere is text, not controls.** Three nav entries, the contact pill and the
+footer links have no destination in an app that is a list and a detail page. They are drawn as
+designed but rendered as text: a control that does nothing when pressed is worse than one never
+offered. The design's tablet-only «درب‌های موجود» toggle is left out for the same reason — no API
+field backs it.
+
+**Nothing extra is installed.** At runtime only `nuxt`, `vue` and `vue-router`. No axios (native
+`fetch`), no UI kit, no `@nuxt/image` (remote optimisation needs a provider; the real problem,
+layout shift, is solved by a fixed aspect ratio), no i18n for one locale, no `.env` for a public
+keyless API.
+
+## Tests
+
+```bash
+npm test
+```
+
+128 tests in 19 files, co-located with what they test. Covered: the API mapping and each error it
+can throw, including the 200-with-empty-body; reading and writing filters in the URL; all four
+sorts; category counting; number formatting; and every component that takes props and emits events.
+Assertions are on rendered text and ARIA attributes, never on internals.
+
+Not covered, deliberately: `pages/**`, `app.vue`, `error.vue`, the header and the footer. They wire
+Nuxt composables and hold no branching logic — every decision they make lives in `filters.ts` or in
+a component that is covered.
+
+## Known trade-offs
+
+- jsdom does not implement `<dialog>`'s focus trap, so the tests cover the open/close contract and
+  the trap itself was verified in a browser.
+- Under SSR the loading state is mostly invisible, since the HTML arrives with the products in it.
+  The skeleton shows on retry after a failure and on client-side entry with no payload.
+- Images are served at full size from the API's own host; `loading="lazy"` and a fixed aspect ratio
+  prevent layout shift but not the bytes.
+- No caching or SWR, so every cold request hits upstream. The error state is the honest surface, with
+  a retry button and no backoff.
+- Products with equal ratings keep the order the store sent them in.
