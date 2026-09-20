@@ -1,0 +1,15 @@
+@import 'tailwindcss';
+
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+button:not(:disabled),
+label,
+summary {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
