@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { applyFilters, isFiltered, parseFilters, toQuery, type Filters } from './filters'
+import {
+  applyFilters,
+  isFiltered,
+  parseFilters,
+  toQuery,
+  toggleCategory,
+  type Filters,
+} from './filters'
 import { makeProduct } from '~/test/fixtures'
 
 const empty: Filters = { search: '', categories: [], sort: '' }
@@ -76,6 +83,32 @@ describe('toQuery', () => {
     const filters: Filters = { search: 'gold', categories: ['jewelery'], sort: 'count-asc' }
 
     expect(parseFilters(toQuery(filters))).toEqual(filters)
+  })
+})
+
+describe('toggleCategory', () => {
+  it('adds a category that was not chosen', () => {
+    expect(toggleCategory(empty, 'jewelery').categories).toEqual(['jewelery'])
+  })
+
+  it('removes one that was', () => {
+    const chosen: Filters = { ...empty, categories: ['jewelery', 'electronics'] }
+
+    expect(toggleCategory(chosen, 'jewelery').categories).toEqual(['electronics'])
+  })
+
+  it('leaves the search and the sort alone', () => {
+    const filters: Filters = { search: 'gold', categories: [], sort: 'rate-desc' }
+
+    expect(toggleCategory(filters, 'jewelery')).toMatchObject({ search: 'gold', sort: 'rate-desc' })
+  })
+
+  it('returns a new object rather than editing the one it was given', () => {
+    const filters: Filters = { ...empty, categories: ['jewelery'] }
+
+    toggleCategory(filters, 'electronics')
+
+    expect(filters.categories).toEqual(['jewelery'])
   })
 })
 

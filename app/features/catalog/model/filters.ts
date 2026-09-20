@@ -53,6 +53,14 @@ export function toQuery(filters: Filters): LocationQuery {
   return query
 }
 
+export function toggleCategory(filters: Filters, value: string): Filters {
+  const categories = filters.categories.includes(value)
+    ? filters.categories.filter((category) => category !== value)
+    : [...filters.categories, value]
+
+  return { ...filters, categories }
+}
+
 export function isFiltered(filters: Filters): boolean {
   return Boolean(filters.search || filters.categories.length || filters.sort)
 }
