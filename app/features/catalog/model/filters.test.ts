@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
+  activeFilterCount,
   applyFilters,
   isFiltered,
   parseFilters,
@@ -123,6 +124,22 @@ describe('isFiltered', () => {
 
   it('is true for a sort on its own', () => {
     expect(isFiltered({ ...empty, sort: 'rate-asc' })).toBe(true)
+  })
+})
+
+describe('activeFilterCount', () => {
+  it('counts nothing when nothing is chosen', () => {
+    expect(activeFilterCount(empty)).toBe(0)
+  })
+
+  it('counts the search, the sort and each category separately', () => {
+    expect(
+      activeFilterCount({
+        search: 'gold',
+        categories: ['jewelery', 'electronics'],
+        sort: 'rate-asc',
+      }),
+    ).toBe(4)
   })
 })
 

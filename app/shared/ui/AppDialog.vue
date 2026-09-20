@@ -16,7 +16,7 @@ watch(open, (isOpen) => {
   <dialog
     ref="dialog"
     :aria-label="label"
-    class="bg-surface backdrop:bg-title/40 m-0 max-h-dvh max-w-none p-0 backdrop:backdrop-blur-[2px]"
+    class="backdrop:bg-title/40 m-0 max-h-dvh max-w-none p-0 backdrop:backdrop-blur-[2px]"
     @close="open = false"
   >
     <slot />

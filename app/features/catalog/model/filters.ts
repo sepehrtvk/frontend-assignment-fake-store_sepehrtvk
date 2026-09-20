@@ -61,8 +61,12 @@ export function toggleCategory(filters: Filters, value: string): Filters {
   return { ...filters, categories }
 }
 
+export function activeFilterCount(filters: Filters): number {
+  return (filters.search ? 1 : 0) + (filters.sort ? 1 : 0) + filters.categories.length
+}
+
 export function isFiltered(filters: Filters): boolean {
-  return Boolean(filters.search || filters.categories.length || filters.sort)
+  return activeFilterCount(filters) > 0
 }
 
 export function applyFilters(products: Product[], filters: Filters): Product[] {

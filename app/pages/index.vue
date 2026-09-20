@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { fetchProducts } from '~/features/catalog/api/products.api'
 import { countCategories } from '~/features/catalog/model/categories'
 import {
+  activeFilterCount,
   applyFilters,
   isFiltered,
   parseFilters,
@@ -11,10 +12,12 @@ import {
 } from '~/features/catalog/model/filters'
 import AppliedFilters from '~/features/catalog/ui/AppliedFilters.vue'
 import FilterPanel from '~/features/catalog/ui/FilterPanel.vue'
+import FilterSheet from '~/features/catalog/ui/FilterSheet.vue'
 import ProductGrid from '~/features/catalog/ui/ProductGrid.vue'
 import ProductGridSkeleton from '~/features/catalog/ui/ProductGridSkeleton.vue'
 import { count } from '~/shared/lib/format'
 import AlertBanner from '~/shared/ui/AlertBanner.vue'
+import AppIcon from '~/shared/ui/AppIcon.vue'
 import EmptyState from '~/shared/ui/EmptyState.vue'
 import PrimaryButton from '~/shared/ui/PrimaryButton.vue'
 
@@ -27,6 +30,9 @@ const loading = computed(() => status.value === 'pending')
 const filters = computed(() => parseFilters(route.query))
 const facets = computed(() => countCategories(products.value ?? []))
 const visible = computed(() => applyFilters(products.value ?? [], filters.value))
+const active = computed(() => activeFilterCount(filters.value))
+
+const sheetOpen = ref(false)
 
 function update(next: Filters) {
   router.push({ query: toQuery(next) })
@@ -43,6 +49,31 @@ function update(next: Filters) {
     />
 
     <div class="grid content-start gap-4">
+      <button
+        type="button"
+        class="bg-surface rounded-card text-label focus-visible:outline-brand flex items-center justify-between gap-2 p-4 text-[13px] font-medium focus-visible:outline-2 focus-visible:outline-offset-2 lg:hidden"
+        aria-haspopup="dialog"
+        :aria-expanded="sheetOpen"
+        @click="sheetOpen = true"
+      >
+        فیلتر و جستجو
+        <span
+          v-if="active"
+          class="bg-brand rounded-badge grid size-6 place-items-center text-xs text-white"
+        >
+          {{ count(active) }}
+        </span>
+        <AppIcon v-else name="sort" class="text-muted" />
+      </button>
+
+      <FilterSheet
+        v-model:open="sheetOpen"
+        :filters="filters"
+        :facets="facets"
+        :results="visible.length"
+        @update:filters="update"
+      />
+
       <AlertBanner v-if="error" :message="error.message">
         <template #action>
           <PrimaryButton class="rounded-chip text-sm" :disabled="loading" @click="refresh()">
