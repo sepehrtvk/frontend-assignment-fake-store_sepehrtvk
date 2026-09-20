@@ -25,7 +25,7 @@ useSeoMeta({
 </script>
 
 <template>
-  <main v-if="product" class="mx-auto grid max-w-[1360px] gap-6 px-4 py-6 lg:px-10">
+  <main v-if="product" id="main" class="mx-auto grid max-w-[1360px] gap-6 px-4 py-6 lg:px-10">
     <BreadcrumbTrail :title="product.title" />
     <ProductHero :product="product" />
     <ProductSpecs :product="product" />
