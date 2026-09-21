@@ -38,7 +38,7 @@ function clear() {
         aria-label="جستجوی محصولات"
         aria-keyshortcuts="/"
         placeholder="نام محصول"
-        class="placeholder:text-placeholder text-body min-w-0 flex-1 bg-transparent py-1 text-[13px] outline-none [&::-webkit-search-cancel-button]:hidden"
+        class="placeholder:text-placeholder text-body w-0 min-w-0 flex-1 bg-transparent py-1 text-[13px] outline-none [&::-webkit-search-cancel-button]:hidden"
       />
       <IconButton
         v-if="query"
