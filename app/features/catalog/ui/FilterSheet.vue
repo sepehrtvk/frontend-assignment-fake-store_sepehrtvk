@@ -17,6 +17,7 @@ const open = defineModel<boolean>('open', { required: true })
   <AppDialog
     v-model:open="open"
     label="فیلتر و جستجو"
+    from="bottom"
     class="bg-page mt-auto mb-0 w-full max-w-full rounded-t-[32px]"
   >
     <div class="grid max-h-[85dvh] grid-rows-[auto_1fr_auto]">

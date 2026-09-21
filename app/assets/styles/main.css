@@ -21,3 +21,73 @@ button:disabled {
 html:has(dialog[open]) {
   overflow: hidden;
 }
+
+dialog {
+  transition:
+    translate 0.4s cubic-bezier(0.32, 0.72, 0, 1),
+    scale 0.25s ease-out,
+    opacity 0.25s ease-out,
+    overlay 0.4s allow-discrete,
+    display 0.4s allow-discrete;
+}
+
+dialog:not([open]) {
+  opacity: 0;
+}
+
+dialog[data-from='top']:not([open]) {
+  translate: 0 -100%;
+}
+
+dialog[data-from='bottom']:not([open]) {
+  translate: 0 100%;
+}
+
+dialog[data-from='center']:not([open]) {
+  scale: 0.94;
+}
+
+dialog::backdrop {
+  background-color: transparent;
+  backdrop-filter: blur(0);
+  transition:
+    background-color 0.3s ease-out,
+    backdrop-filter 0.3s ease-out,
+    overlay 0.4s allow-discrete,
+    display 0.4s allow-discrete;
+}
+
+dialog[open]::backdrop {
+  background-color: color-mix(in srgb, var(--color-title) 40%, transparent);
+  backdrop-filter: blur(2px);
+}
+
+@starting-style {
+  dialog[open] {
+    opacity: 0;
+  }
+
+  dialog[data-from='top'][open] {
+    translate: 0 -100%;
+  }
+
+  dialog[data-from='bottom'][open] {
+    translate: 0 100%;
+  }
+
+  dialog[data-from='center'][open] {
+    scale: 0.94;
+  }
+
+  dialog[open]::backdrop {
+    background-color: transparent;
+    backdrop-filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  dialog,
+  dialog::backdrop {
+    transition: none;
+  }
+}

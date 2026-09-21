@@ -43,6 +43,16 @@ describe('AppDialog', () => {
     expect(wrapper.emitted('update:open')?.at(-1)).toEqual([false])
   })
 
+  it('opens from the centre unless told otherwise', () => {
+    expect(mountDialog().find('dialog').attributes('data-from')).toBe('center')
+  })
+
+  it('opens from the edge it was asked to', () => {
+    const wrapper = mount(AppDialog, { props: { label: 'فهرست', open: false, from: 'bottom' } })
+
+    expect(wrapper.find('dialog').attributes('data-from')).toBe('bottom')
+  })
+
   it('names itself for assistive technology', () => {
     expect(mountDialog().find('dialog').attributes('aria-label')).toBe('فهرست')
   })

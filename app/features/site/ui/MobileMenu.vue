@@ -12,6 +12,7 @@ const open = defineModel<boolean>('open', { required: true })
   <AppDialog
     v-model:open="open"
     label="فهرست اصلی"
+    from="top"
     class="bg-surface mt-0 mb-auto w-full max-w-full rounded-b-[32px]"
   >
     <div class="border-line flex items-center justify-between border-b p-4">

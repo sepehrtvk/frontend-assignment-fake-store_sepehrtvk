@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 
-defineProps<{ label: string }>()
+withDefaults(defineProps<{ label: string; from?: 'top' | 'bottom' | 'center' }>(), {
+  from: 'center',
+})
 
 const open = defineModel<boolean>('open', { required: true })
 const dialog = ref<HTMLDialogElement>()
@@ -20,7 +22,8 @@ function closeOnBackdrop(event: MouseEvent) {
   <dialog
     ref="dialog"
     :aria-label="label"
-    class="backdrop:bg-title/40 m-auto p-0 backdrop:backdrop-blur-[2px]"
+    :data-from="from"
+    class="m-auto p-0"
     @click="closeOnBackdrop"
     @close="open = false"
   >
