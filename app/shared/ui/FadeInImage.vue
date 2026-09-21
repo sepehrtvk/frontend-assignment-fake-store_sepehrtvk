@@ -17,7 +17,7 @@ onMounted(() => {
     ref="image"
     :src="src"
     :alt="alt"
-    class="transition-opacity duration-500 motion-reduce:transition-none"
+    class="transition duration-500 ease-out motion-reduce:transition-none"
     :class="{ 'opacity-0': waiting }"
     @load="waiting = false"
     @error="waiting = false"

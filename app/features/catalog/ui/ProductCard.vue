@@ -9,14 +9,16 @@ defineProps<{ product: Product }>()
 <template>
   <NuxtLink
     :to="`/products/${product.id}`"
-    class="border-line bg-surface rounded-card focus-visible:outline-brand group grid content-start gap-3 border p-2 pb-4 focus-visible:outline-2 focus-visible:outline-offset-2"
+    class="border-line bg-surface rounded-card focus-visible:outline-brand group hover:shadow-title/10 grid content-start gap-3 border p-2 pb-4 transition duration-300 ease-out hover:-translate-y-1 hover:shadow-lg focus-visible:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0"
   >
-    <FadeInImage
-      :src="product.image"
-      :alt="product.title"
-      loading="lazy"
-      class="bg-sunken rounded-chip aspect-[247/170] w-full object-contain p-4"
-    />
+    <div class="bg-sunken rounded-chip aspect-[247/170] overflow-hidden">
+      <FadeInImage
+        :src="product.image"
+        :alt="product.title"
+        loading="lazy"
+        class="size-full object-contain p-4 group-hover:scale-105 motion-reduce:group-hover:scale-100"
+      />
+    </div>
 
     <p
       dir="ltr"
@@ -35,7 +37,10 @@ defineProps<{ product: Product }>()
       class="border-line rounded-chip text-brand group-hover:border-brand mx-2 flex items-center justify-center gap-2 border-[1.5px] px-4 py-3 text-sm font-bold transition-colors"
     >
       مشاهده جزئیات
-      <AppIcon name="chevron" class="rotate-90" />
+      <AppIcon
+        name="chevron"
+        class="rotate-90 transition-transform duration-300 group-hover:-translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+      />
     </span>
   </NuxtLink>
 </template>
