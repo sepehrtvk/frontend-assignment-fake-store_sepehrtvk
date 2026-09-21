@@ -10,13 +10,18 @@ watch(open, (isOpen) => {
   if (isOpen) dialog.value?.showModal()
   else if (dialog.value?.open) dialog.value.close()
 })
+
+function closeOnBackdrop(event: MouseEvent) {
+  if (event.target === event.currentTarget) open.value = false
+}
 </script>
 
 <template>
   <dialog
     ref="dialog"
     :aria-label="label"
-    class="backdrop:bg-title/40 p-0 backdrop:backdrop-blur-[2px]"
+    class="backdrop:bg-title/40 m-auto p-0 backdrop:backdrop-blur-[2px]"
+    @click="closeOnBackdrop"
     @close="open = false"
   >
     <slot />

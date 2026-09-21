@@ -50,4 +50,20 @@ describe('AppDialog', () => {
   it('renders what it was given', () => {
     expect(mountDialog().text()).toContain('محتوا')
   })
+
+  it('closes when the backdrop around it is clicked', async () => {
+    const wrapper = mountDialog(true)
+
+    await wrapper.find('dialog').trigger('click')
+
+    expect(wrapper.emitted('update:open')?.at(-1)).toEqual([false])
+  })
+
+  it('stays open when something inside it is clicked', async () => {
+    const wrapper = mountDialog(true)
+
+    await wrapper.find('p').trigger('click')
+
+    expect(wrapper.emitted('update:open')).toBeUndefined()
+  })
 })
