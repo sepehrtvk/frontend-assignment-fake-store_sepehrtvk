@@ -47,14 +47,27 @@ function toProduct(raw: UsableProduct): Product {
   }
 }
 
-export async function fetchProducts(): Promise<Product[]> {
-  const body = await request('/products')
+function toProducts(body: unknown): Product[] {
   const raw: RawProduct[] = Array.isArray(body) ? body : []
-  const products = raw.filter(isUsable).map(toProduct)
+  return raw.filter(isUsable).map(toProduct)
+}
+
+export async function fetchProducts(): Promise<Product[]> {
+  const products = toProducts(await request('/products'))
 
   if (!products.length) throw new Error(EMPTY)
 
   return products
+}
+
+export async function fetchProductsInCategories(categories: string[]): Promise<Product[]> {
+  const lists = await Promise.all(
+    categories.map(async (category) =>
+      toProducts(await request(`/products/category/${encodeURIComponent(category)}`)),
+    ),
+  )
+
+  return lists.flat().sort((a, b) => a.id - b.id)
 }
 
 export async function fetchProduct(id: number): Promise<Product | null> {

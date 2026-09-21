@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { fetchProduct, fetchProducts } from './products.api'
+import { fetchProduct, fetchProducts, fetchProductsInCategories } from './products.api'
 
 const backpack = {
   id: 1,
@@ -108,5 +108,50 @@ describe('fetchProduct', () => {
     answerWith(respond({ id: 999 }))
 
     expect(await fetchProduct(999)).toBeNull()
+  })
+})
+
+describe('fetchProductsInCategories', () => {
+  const ring = { ...backpack, id: 5, category: 'jewelery' }
+  const drive = { ...backpack, id: 9, category: 'electronics' }
+
+  it('asks the store for each category and keeps its order by id', async () => {
+    const fetch = vi.fn(async (url: string) =>
+      respond(url.endsWith('/jewelery') ? [ring] : [drive, backpack]),
+    )
+    vi.stubGlobal('fetch', fetch)
+
+    const products = await fetchProductsInCategories(['jewelery', 'electronics'])
+
+    expect(fetch).toHaveBeenCalledTimes(2)
+    expect(products.map((product) => product.id)).toEqual([1, 5, 9])
+  })
+
+  it('encodes a category with a space and an apostrophe in it', async () => {
+    const fetch = vi.fn(async () => respond([backpack]))
+    vi.stubGlobal('fetch', fetch)
+
+    await fetchProductsInCategories(["men's clothing"])
+
+    expect(fetch).toHaveBeenCalledWith(
+      "https://fakestoreapi.com/products/category/men's%20clothing",
+    )
+  })
+
+  it('returns an empty list for a category the store does not know', async () => {
+    answerWith(respond([]))
+
+    expect(await fetchProductsInCategories(['groceries'])).toEqual([])
+  })
+
+  it('still explains an unreachable store', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => {
+        throw new TypeError('Failed to fetch')
+      }),
+    )
+
+    await expect(fetchProductsInCategories(['jewelery'])).rejects.toThrow('اتصال اینترنت')
   })
 })

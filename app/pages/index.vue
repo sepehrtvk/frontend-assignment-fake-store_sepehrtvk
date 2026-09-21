@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { fetchProducts } from '~/features/catalog/api/products.api'
+import { fetchProducts, fetchProductsInCategories } from '~/features/catalog/api/products.api'
 import { countCategories } from '~/features/catalog/model/categories'
 import {
   activeFilterCount,
@@ -24,12 +24,32 @@ import PrimaryButton from '~/shared/ui/PrimaryButton.vue'
 const route = useRoute()
 const router = useRouter()
 
-const { data: products, status, error, refresh } = await useAsyncData('products', fetchProducts)
-
-const loading = computed(() => status.value === 'pending')
 const filters = computed(() => parseFilters(route.query))
-const facets = computed(() => countCategories(products.value ?? []))
-const visible = computed(() => applyFilters(products.value ?? [], filters.value))
+const categories = computed(() => filters.value.categories)
+
+const {
+  data: all,
+  status: allStatus,
+  error: allError,
+  refresh: refreshAll,
+} = await useAsyncData('products', fetchProducts)
+
+const {
+  data: scoped,
+  status: scopedStatus,
+  error: scopedError,
+  refresh: refreshScoped,
+} = await useAsyncData(
+  () => `products:${categories.value.join(',')}`,
+  () =>
+    categories.value.length ? fetchProductsInCategories(categories.value) : Promise.resolve(null),
+)
+
+const loading = computed(() => allStatus.value === 'pending' || scopedStatus.value === 'pending')
+const error = computed(() => allError.value ?? scopedError.value)
+const source = computed(() => (categories.value.length ? scoped.value : all.value) ?? [])
+const facets = computed(() => countCategories(all.value ?? []))
+const visible = computed(() => applyFilters(source.value, filters.value))
 const active = computed(() => activeFilterCount(filters.value))
 
 const sheetOpen = ref(false)
@@ -41,6 +61,10 @@ useSeoMeta({
 
 function update(next: Filters) {
   router.push({ query: toQuery(next) })
+}
+
+function retry() {
+  return Promise.all([refreshAll(), refreshScoped()])
 }
 </script>
 
@@ -84,7 +108,7 @@ function update(next: Filters) {
 
       <AlertBanner v-if="error" :message="error.message">
         <template #action>
-          <PrimaryButton class="rounded-chip text-sm" :disabled="loading" @click="refresh()">
+          <PrimaryButton class="rounded-chip text-sm" :disabled="loading" @click="retry">
             {{ loading ? 'در حال تلاش دوباره' : 'تلاش دوباره' }}
           </PrimaryButton>
         </template>
@@ -93,7 +117,9 @@ function update(next: Filters) {
       <template v-else>
         <AppliedFilters :filters="filters" @update:filters="update" />
 
-        <p aria-live="polite" class="sr-only">{{ count(visible.length) }} محصول پیدا شد</p>
+        <p aria-live="polite" class="sr-only">
+          {{ loading ? '' : `${count(visible.length)} محصول پیدا شد` }}
+        </p>
 
         <ProductGridSkeleton v-if="loading" />
         <EmptyState
