@@ -2,6 +2,8 @@
 @import '../fonts.css';
 @import './tokens.css';
 
+@custom-variant tall (@media (min-height: 720px));
+
 body {
   background-color: var(--color-page);
   color: var(--color-body);
