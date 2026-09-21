@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 import { fetchProducts, fetchProductsInCategories } from '~/features/catalog/api/products.api'
 import { countCategories } from '~/features/catalog/model/categories'
 import {
@@ -16,6 +16,7 @@ import FilterSheet from '~/features/catalog/ui/FilterSheet.vue'
 import ProductGrid from '~/features/catalog/ui/ProductGrid.vue'
 import ProductGridSkeleton from '~/features/catalog/ui/ProductGridSkeleton.vue'
 import { count } from '~/shared/lib/format'
+import { isTyping } from '~/shared/lib/keyboard'
 import AlertBanner from '~/shared/ui/AlertBanner.vue'
 import AppIcon from '~/shared/ui/AppIcon.vue'
 import EmptyState from '~/shared/ui/EmptyState.vue'
@@ -69,6 +70,26 @@ useSeoMeta({
 function update(next: Filters) {
   router.push({ query: toQuery(next) })
 }
+
+const SEARCH_FIELD = 'input[aria-keyshortcuts="/"]'
+
+async function focusSearch(event: KeyboardEvent) {
+  if (event.key !== '/' || event.ctrlKey || event.metaKey || event.altKey) return
+  if (isTyping(event.target)) return
+
+  event.preventDefault()
+
+  const fields = [...document.querySelectorAll<HTMLInputElement>(SEARCH_FIELD)]
+  const visible = fields.find((field) => field.offsetParent)
+  if (visible) return visible.focus()
+
+  sheetOpen.value = true
+  await nextTick()
+  document.querySelector<HTMLInputElement>(`dialog[open] ${SEARCH_FIELD}`)?.focus()
+}
+
+onMounted(() => window.addEventListener('keydown', focusSearch))
+onBeforeUnmount(() => window.removeEventListener('keydown', focusSearch))
 
 function retry() {
   return Promise.all([refreshAll(), refreshScoped()])

@@ -36,6 +36,7 @@ function clear() {
         v-model="query"
         type="search"
         aria-label="جستجوی محصولات"
+        aria-keyshortcuts="/"
         placeholder="نام محصول"
         class="placeholder:text-placeholder text-body min-w-0 flex-1 bg-transparent py-1 text-[13px] outline-none [&::-webkit-search-cancel-button]:hidden"
       />
@@ -46,6 +47,13 @@ function clear() {
         class="text-muted"
         @click="clear"
       />
+      <kbd
+        v-else
+        aria-hidden="true"
+        class="border-line text-muted hidden rounded-[6px] border px-1.5 font-sans text-xs lg:block"
+      >
+        /
+      </kbd>
     </div>
 
     <PrimaryButton type="submit" class="rounded-control text-xs">جستجو</PrimaryButton>
