@@ -21,11 +21,11 @@ describe('AppliedFilters', () => {
     expect(mountChips({ sort: 'rate-desc' }).text()).toContain('رتبه: زیاد به کم')
   })
 
-  it('shows one chip per chosen category, named in persian', () => {
+  it('shows one chip per chosen category, named as the store names it', () => {
     const wrapper = mountChips({ categories: ['jewelery', 'electronics'] })
 
-    expect(wrapper.text()).toContain('طلا و جواهر')
-    expect(wrapper.text()).toContain('لوازم الکترونیکی')
+    expect(wrapper.text()).toContain('jewelery')
+    expect(wrapper.text()).toContain('electronics')
   })
 
   it('removes only the filter whose chip was pressed', async () => {

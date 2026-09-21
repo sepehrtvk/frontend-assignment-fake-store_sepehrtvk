@@ -18,8 +18,8 @@ describe('ProductSpecs', () => {
     expect(mountSpecs().findAll('dd')[0]?.text()).toBe('۱۰۹٫۹۵ دلار')
   })
 
-  it('names the category in persian rather than repeating the slug', () => {
-    expect(mountSpecs().findAll('dd')[2]?.text()).toBe('پوشاک مردانه')
+  it('names the category exactly as the store does', () => {
+    expect(mountSpecs().findAll('dd')[2]?.text()).toBe("men's clothing")
   })
 
   it('shows the rating and how many people gave it', () => {

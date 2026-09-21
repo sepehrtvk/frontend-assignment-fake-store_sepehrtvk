@@ -2,7 +2,6 @@
 import { computed } from 'vue'
 import AppIcon from '~/shared/ui/AppIcon.vue'
 import type { IconName } from '~/shared/ui/icons'
-import { categoryLabel } from '../model/categories'
 import { toggleCategory, type Filters, type SortKey } from '../model/filters'
 
 const SORT_LABELS: Record<SortKey, string> = {
@@ -46,7 +45,7 @@ const chips = computed<Chip[]>(() => {
   for (const category of props.filters.categories) {
     list.push({
       key: `category:${category}`,
-      label: categoryLabel(category),
+      label: category,
       icon: 'category',
       next: toggleCategory(props.filters, category),
     })

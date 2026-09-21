@@ -3,16 +3,17 @@ import { describe, expect, it } from 'vitest'
 import CategoryOptions from './CategoryOptions.vue'
 
 const facets = [
-  { value: 'electronics', label: 'لوازم الکترونیکی', count: 6 },
-  { value: 'jewelery', label: 'طلا و جواهر', count: 4 },
+  { value: 'electronics', count: 6 },
+  { value: 'jewelery', count: 4 },
 ]
 
 const mountOptions = (categories: string[] = []) =>
   mount(CategoryOptions, { props: { facets, categories } })
 
 describe('CategoryOptions', () => {
-  it('names each category in persian', () => {
-    expect(mountOptions().text()).toContain('لوازم الکترونیکی')
+  it('names each category exactly as the store does', () => {
+    expect(mountOptions().text()).toContain('electronics')
+    expect(mountOptions().text()).toContain('jewelery')
   })
 
   it('shows how many products each one holds', () => {
@@ -43,7 +44,7 @@ describe('CategoryOptions', () => {
   })
 
   it('reads the count as part of the label it belongs to', () => {
-    expect(mountOptions().findAll('label')[0]?.text()).toBe('لوازم الکترونیکی۶')
+    expect(mountOptions().findAll('label')[0]?.text()).toBe('electronics۶')
   })
 
   it('has nothing to show when no products arrived', () => {

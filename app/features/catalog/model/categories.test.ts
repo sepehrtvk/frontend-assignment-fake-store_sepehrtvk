@@ -1,21 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { categoryLabel, countCategories } from './categories'
+import { countCategories } from './categories'
 import { makeProduct } from '~/test/fixtures'
-
-describe('categoryLabel', () => {
-  it('names each category the store sends in persian', () => {
-    expect(categoryLabel('electronics')).toBe('لوازم الکترونیکی')
-    expect(categoryLabel("men's clothing")).toBe('پوشاک مردانه')
-  })
-
-  it("keeps the store's own spelling of jewelery as the key", () => {
-    expect(categoryLabel('jewelery')).toBe('طلا و جواهر')
-  })
-
-  it('falls back to the raw value for a category it has never seen', () => {
-    expect(categoryLabel('groceries')).toBe('groceries')
-  })
-})
 
 describe('countCategories', () => {
   const products = [
@@ -24,10 +9,10 @@ describe('countCategories', () => {
     makeProduct({ id: 3, category: 'jewelery' }),
   ]
 
-  it('counts the products in each category', () => {
+  it('counts the products in each category, named as the store names it', () => {
     expect(countCategories(products)).toEqual([
-      { value: 'jewelery', label: 'طلا و جواهر', count: 1 },
-      { value: 'electronics', label: 'لوازم الکترونیکی', count: 2 },
+      { value: 'electronics', count: 2 },
+      { value: 'jewelery', count: 1 },
     ])
   })
 

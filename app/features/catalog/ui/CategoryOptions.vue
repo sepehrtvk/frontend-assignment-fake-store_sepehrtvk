@@ -21,7 +21,7 @@ const emit = defineEmits<{ toggle: [string] }>()
         :checked="categories.includes(facet.value)"
         @change="emit('toggle', facet.value)"
       />
-      <span class="flex-1">{{ facet.label }}</span>
+      <span dir="ltr" lang="en" class="flex-1 text-right">{{ facet.value }}</span>
       <span
         class="rounded-badge grid size-6 place-items-center text-xs text-white"
         :class="categories.includes(facet.value) ? 'bg-brand' : 'bg-badge'"

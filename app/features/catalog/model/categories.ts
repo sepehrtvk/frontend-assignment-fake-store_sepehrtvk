@@ -1,20 +1,8 @@
 import type { Product } from './product.types'
 
-const LABELS: Record<string, string> = {
-  electronics: 'لوازم الکترونیکی',
-  jewelery: 'طلا و جواهر',
-  "men's clothing": 'پوشاک مردانه',
-  "women's clothing": 'پوشاک زنانه',
-}
-
 export interface CategoryFacet {
   value: string
-  label: string
   count: number
-}
-
-export function categoryLabel(value: string): string {
-  return LABELS[value] ?? value
 }
 
 export function countCategories(products: Product[]): CategoryFacet[] {
@@ -25,6 +13,6 @@ export function countCategories(products: Product[]): CategoryFacet[] {
   }
 
   return [...counts]
-    .map(([value, count]) => ({ value, label: categoryLabel(value), count }))
-    .sort((a, b) => a.label.localeCompare(b.label, 'fa'))
+    .map(([value, count]) => ({ value, count }))
+    .sort((a, b) => a.value.localeCompare(b.value))
 }

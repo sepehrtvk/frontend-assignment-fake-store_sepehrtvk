@@ -9,7 +9,7 @@ beforeAll(stubDialogMethods)
 
 const empty: Filters = { search: '', categories: [], sort: '' }
 
-const facets = [{ value: 'jewelery', label: 'طلا و جواهر', count: 4 }]
+const facets = [{ value: 'jewelery', count: 4 }]
 
 const mountSheet = (open = true, results = 6) =>
   mount(FilterSheet, {

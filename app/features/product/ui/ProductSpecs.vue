@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { categoryLabel } from '~/features/catalog/model/categories'
 import type { Product } from '~/features/catalog/model/product.types'
 import { count, price, rate } from '~/shared/lib/format'
 
@@ -9,7 +8,7 @@ const props = defineProps<{ product: Product }>()
 const rows = computed(() => [
   { label: 'قیمت', value: price(props.product.price), english: false },
   { label: 'توضیحات', value: props.product.description, english: true },
-  { label: 'دسته بندی', value: categoryLabel(props.product.category), english: false },
+  { label: 'دسته بندی', value: props.product.category, english: true },
   { label: 'رتبه', value: rate(props.product.rate), english: false },
   { label: 'تعداد', value: count(props.product.count), english: false },
 ])
