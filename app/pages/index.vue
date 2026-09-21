@@ -50,7 +50,7 @@ function update(next: Filters) {
     class="mx-auto grid max-w-[1360px] gap-6 px-4 py-6 lg:grid-cols-[266px_minmax(0,1fr)] lg:px-10"
   >
     <FilterPanel
-      class="hidden lg:block"
+      class="hidden lg:grid"
       :filters="filters"
       :facets="facets"
       @update:filters="update"
