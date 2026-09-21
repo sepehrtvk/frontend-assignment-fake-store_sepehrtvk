@@ -12,6 +12,8 @@ const notFound = computed(() => props.error.statusCode === 404)
 
 const title = computed(() => (notFound.value ? 'این محصول پیدا نشد' : 'مشکلی پیش آمد'))
 
+useHead({ title })
+
 const hint = computed(() =>
   notFound.value
     ? 'شاید حذف شده باشد یا نشانی را اشتباه وارد کرده باشید.'
