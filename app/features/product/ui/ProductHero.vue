@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import type { Product } from '~/features/catalog/model/product.types'
 import AppDialog from '~/shared/ui/AppDialog.vue'
+import FadeInImage from '~/shared/ui/FadeInImage.vue'
 import IconButton from '~/shared/ui/IconButton.vue'
 
 defineProps<{ product: Product }>()
@@ -16,7 +17,7 @@ const zoomed = ref(false)
     </h1>
 
     <div class="relative">
-      <img
+      <FadeInImage
         :src="product.image"
         :alt="product.title"
         class="bg-sunken rounded-chip max-h-[420px] w-full object-contain p-6"

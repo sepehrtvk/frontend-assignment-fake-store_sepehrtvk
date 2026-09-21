@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppIcon from '~/shared/ui/AppIcon.vue'
+import FadeInImage from '~/shared/ui/FadeInImage.vue'
 import type { Product } from '../model/product.types'
 
 defineProps<{ product: Product }>()
@@ -10,7 +11,7 @@ defineProps<{ product: Product }>()
     :to="`/products/${product.id}`"
     class="border-line bg-surface rounded-card focus-visible:outline-brand group grid content-start gap-3 border p-2 pb-4 focus-visible:outline-2 focus-visible:outline-offset-2"
   >
-    <img
+    <FadeInImage
       :src="product.image"
       :alt="product.title"
       loading="lazy"
