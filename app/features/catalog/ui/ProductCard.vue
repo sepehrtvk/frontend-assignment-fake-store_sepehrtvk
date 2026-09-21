@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import AppIcon from '~/shared/ui/AppIcon.vue'
-import { price, rate } from '~/shared/lib/format'
 import type { Product } from '../model/product.types'
 
 defineProps<{ product: Product }>()
@@ -27,8 +26,8 @@ defineProps<{ product: Product }>()
     </p>
 
     <p class="text-muted flex items-center justify-between px-2 text-[13px]">
-      <span class="text-title font-bold">{{ price(product.price) }}</span>
-      <span>رتبه {{ rate(product.rate) }}</span>
+      <span class="text-title font-bold">{{ product.price }}</span>
+      <span>رتبه {{ product.rate }}</span>
     </p>
 
     <span

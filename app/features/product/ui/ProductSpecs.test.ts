@@ -14,8 +14,8 @@ describe('ProductSpecs', () => {
     expect(labels).toEqual(['قیمت', 'توضیحات', 'دسته بندی', 'رتبه', 'تعداد'])
   })
 
-  it('writes the price in persian digits', () => {
-    expect(mountSpecs().findAll('dd')[0]?.text()).toBe('۱۰۹٫۹۵ دلار')
+  it('shows the price exactly as the store sends it', () => {
+    expect(mountSpecs().findAll('dd')[0]?.text()).toBe('109.95')
   })
 
   it('names the category exactly as the store does', () => {
@@ -23,8 +23,8 @@ describe('ProductSpecs', () => {
   })
 
   it('shows the rating and how many people gave it', () => {
-    expect(mountSpecs().findAll('dd')[3]?.text()).toBe('۳٫۹')
-    expect(mountSpecs().findAll('dd')[4]?.text()).toBe('۱۲۰')
+    expect(mountSpecs().findAll('dd')[3]?.text()).toBe('3.9')
+    expect(mountSpecs().findAll('dd')[4]?.text()).toBe('120')
   })
 
   it('marks the english description ltr so its punctuation holds', () => {

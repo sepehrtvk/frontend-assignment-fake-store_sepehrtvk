@@ -30,11 +30,11 @@ describe('ProductCard', () => {
     expect(mountCard().find('img').attributes('loading')).toBe('lazy')
   })
 
-  it('shows the price and the rating the sort options order by', () => {
+  it('shows the price and the rating exactly as the store sends them', () => {
     const text = mountCard().text()
 
-    expect(text).toContain('۱۰۹٫۹۵ دلار')
-    expect(text).toContain('۳٫۹')
+    expect(text).toContain('109.95')
+    expect(text).toContain('3.9')
   })
 
   it('lets an english title render left to right inside the rtl page', () => {
