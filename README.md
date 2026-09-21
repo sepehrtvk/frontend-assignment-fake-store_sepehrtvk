@@ -19,7 +19,7 @@ npm run dev        # http://localhost:3000
 | `npm run dev`     | dev server                                 |
 | `npm run build`   | format check, lint, type check, then build |
 | `npm run preview` | serve the production build                 |
-| `npm test`        | 137 tests across 19 files                  |
+| `npm test`        | 134 tests across 19 files                  |
 
 ## Docker
 
@@ -65,10 +65,13 @@ own composables are used only inside `pages/` and `app.vue`.
 
 ## Technical decisions
 
-**Persian interface, English data.** The design is Persian and the brief names the API as the
-source of truth, so labels and states are Persian while product titles and descriptions render
-exactly as the API returns them. Translating them would be inventing content. English text inside
-the RTL page is marked `dir="ltr"` so its punctuation holds.
+**Persian interface, product data untouched.** The design is Persian and the brief names the API
+as the source of truth, so the interface — labels, states, the nav — is Persian while everything
+about a product renders exactly as the API returns it: title, description, category name, price,
+rating and rating count. Nothing is translated, reformatted or hard-coded, so a category added
+upstream appears as-is. English text inside the RTL page is marked `dir="ltr"` so its punctuation
+holds. Persian digits appear only on numbers the interface produces itself: category counts, the
+result count and the active-filter badge.
 
 **Filters live in the URL, not in a store.** `/?q=gold&category=jewelery&sort=rate-desc` is the
 whole state. A filtered view is shareable, the back button removes one filter instead of leaving
@@ -86,12 +89,11 @@ The API has nothing else to offer: every query parameter on `/products` (`?q=`, 
 `?search=`, `?category=`) is ignored and all 20 products come back, `/products/search` is read as a
 product id, and `?sort` orders by id only. So search and sort run on the list already fetched, and
 are instant. The full list is fetched once regardless, because the category counts need it; with
-no category ticked the page uses it directly. Persian category names are a hand-written map keyed
-by the API's own slugs, its `jewelery` misspelling included.
+no category ticked the page uses it directly.
 
-**Prices are dollars, not تومان.** The design shows تومان but the API's prices are USD, and
-converting them needs an exchange rate this app has no source for. Digits are Persian via `Intl`,
-which renders identically on the server and in the browser, so hydration matches.
+**Prices are the API's numbers, not تومان.** The design shows تومان, but converting needs an
+exchange rate this app has no source for, and adding a currency symbol would be asserting something
+the API never says.
 
 **The card shows price and rating, which the design omits.** The sidebar offers to sort by rating
 and by rating count; sorting by numbers the card never shows leaves the user watching the grid
@@ -103,9 +105,12 @@ would freeze at build time. Asking the store for an id it does not have returns 
 body**, not 404, so `res.ok` proves nothing and not-found is decided on the parsed payload. There is
 no `server/api` proxy: the upstream is public, keyless and CORS-open.
 
-**The mobile menu and the filter sheet are both `<dialog>`.** `showModal()` provides the focus trap,
-Escape handling, an inert background and top-layer stacking, so none of it is hand-written. The
-Figma has no mobile frame for the list, so that layout is mine: one column, a filter trigger showing
+**The menu, the filter sheet and the image lightbox are all one `<dialog>` primitive.**
+`showModal()` provides the focus trap, Escape handling, an inert background and top-layer stacking,
+so none of it is hand-written; a click on the backdrop closes it too. They animate in CSS alone —
+`@starting-style` for the entrance, `allow-discrete` transitions on `display` and `overlay` so the
+exit plays before the element leaves the top layer — sliding from the top, from the bottom, or
+scaling in the centre. Reduced motion turns it off. The Figma has no mobile frame for the list, so that layout is mine: one column, a filter trigger showing
 how many filters are active, and a bottom sheet rendering the **same `FilterPanel` the sidebar uses**,
 so the two cannot drift apart.
 
@@ -130,7 +135,7 @@ keyless API.
 npm test
 ```
 
-137 tests in 19 files, co-located with what they test. Covered: the API mapping and each error it
+134 tests in 19 files, co-located with what they test. Covered: the API mapping and each error it
 can throw, including the 200-with-empty-body, and the per-category requests; reading and writing filters in the URL; all four
 sorts; category counting; number formatting; and every component that takes props and emits events.
 Assertions are on rendered text and ARIA attributes, never on internals.
