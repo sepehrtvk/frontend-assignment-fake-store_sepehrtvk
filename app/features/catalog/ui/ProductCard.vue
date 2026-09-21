@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import AppIcon from '~/shared/ui/AppIcon.vue'
+import { splitByMatch } from '~/shared/lib/highlight'
 import FadeInImage from '~/shared/ui/FadeInImage.vue'
 import type { Product } from '../model/product.types'
 
-defineProps<{ product: Product }>()
+const props = defineProps<{ product: Product; highlight?: string }>()
+
+const title = computed(() => splitByMatch(props.product.title, props.highlight ?? ''))
 </script>
 
 <template>
@@ -28,7 +32,10 @@ defineProps<{ product: Product }>()
       lang="en"
       class="text-title line-clamp-2 min-h-12 px-2 text-right text-sm font-bold"
     >
-      {{ product.title }}
+      <template v-for="(part, index) in title" :key="index">
+        <mark v-if="part.match" class="bg-brand-soft text-brand rounded-sm">{{ part.text }}</mark>
+        <template v-else>{{ part.text }}</template>
+      </template>
     </p>
 
     <p class="text-muted flex items-center justify-between px-2 text-[13px]">

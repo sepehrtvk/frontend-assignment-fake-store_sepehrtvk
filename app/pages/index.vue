@@ -159,7 +159,7 @@ function retry() {
               : 'فروشگاه در حال حاضر محصولی ندارد.'
           "
         />
-        <ProductGrid v-else :products="visible" />
+        <ProductGrid v-else :products="visible" :highlight="filters.search" />
       </template>
     </div>
   </main>

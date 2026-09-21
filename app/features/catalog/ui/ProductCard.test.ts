@@ -3,9 +3,9 @@ import { describe, expect, it } from 'vitest'
 import ProductCard from './ProductCard.vue'
 import { backpack } from '~/test/fixtures'
 
-const mountCard = (product = backpack) =>
+const mountCard = (product = backpack, highlight?: string) =>
   mount(ProductCard, {
-    props: { product },
+    props: { product, highlight },
     global: { stubs: { NuxtLink: RouterLinkStub } },
   })
 
@@ -45,5 +45,19 @@ describe('ProductCard', () => {
     expect(mountCard().find('[style*="view-transition-name"]').attributes('style')).toContain(
       'view-transition-name: product-1',
     )
+  })
+
+  it('marks the part of the title the search matched, keeping the title casing', () => {
+    const marks = mountCard(backpack, 'FOLD').findAll('mark')
+
+    expect(marks.map((mark) => mark.text())).toEqual(['Fold'])
+  })
+
+  it('still reads as the whole title around the mark', () => {
+    expect(mountCard(backpack, 'fold').find('p').text()).toBe('Fjallraven Foldsack No. 1 Backpack')
+  })
+
+  it('marks nothing when there is no search', () => {
+    expect(mountCard().findAll('mark')).toHaveLength(0)
   })
 })
