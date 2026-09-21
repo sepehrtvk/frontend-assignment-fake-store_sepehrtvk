@@ -19,7 +19,7 @@ npm run dev        # http://localhost:3000
 | `npm run dev`     | dev server                                 |
 | `npm run build`   | format check, lint, type check, then build |
 | `npm run preview` | serve the production build                 |
-| `npm test`        | 134 tests across 19 files                  |
+| `npm test`        | 165 tests across 22 files                  |
 
 ## Docker
 
@@ -89,7 +89,9 @@ The API has nothing else to offer: every query parameter on `/products` (`?q=`, 
 `?search=`, `?category=`) is ignored and all 20 products come back, `/products/search` is read as a
 product id, and `?sort` orders by id only. So search and sort run on the list already fetched, and
 are instant. The full list is fetched once regardless, because the category counts need it; with
-no category ticked the page uses it directly.
+no category ticked the page uses it directly. Anything already fetched is kept, so a category picked
+again, opening a product from the list, and going back all skip the network; the retry button always
+refetches.
 
 **Prices are the API's numbers, not تومان.** The design shows تومان, but converting needs an
 exchange rate this app has no source for, and adding a currency symbol would be asserting something
@@ -114,6 +116,15 @@ scaling in the centre. Reduced motion turns it off. The Figma has no mobile fram
 how many filters are active, and a bottom sheet rendering the **same `FilterPanel` the sidebar uses**,
 so the two cannot drift apart.
 
+**Interaction details.** The card photo morphs into the product page hero and back (View
+Transitions API). It runs only when the page changes, never on a filter, and is skipped under
+reduced motion; because the product page reuses the list's data, the morph starts in ~110 ms
+instead of waiting ~300 ms on the API. Cards lift on hover and keyboard focus, and photos fade in —
+but only those with nothing painted at hydration, so a half-loaded image never blinks. The desktop
+filter sidebar is sticky. `/` focuses the search from anywhere (below `lg` it opens the sheet first),
+declared with `aria-keyshortcuts`. Search matches are highlighted in each title with `<mark>`,
+using the same rule as the filter, with no regex built from input and no `v-html`.
+
 **Fonts are substituted.** Yekan Bakh and IRANYekan are commercial and not redistributable.
 Vazirmatn (SIL OFL) is self-hosted in their place — two subsets, 80 KB, no CDN.
 
@@ -135,7 +146,7 @@ keyless API.
 npm test
 ```
 
-134 tests in 19 files, co-located with what they test. Covered: the API mapping and each error it
+165 tests in 22 files, co-located with what they test. Covered: the API mapping and each error it
 can throw, including the 200-with-empty-body, and the per-category requests; reading and writing filters in the URL; all four
 sorts; category counting; number formatting; and every component that takes props and emits events.
 Assertions are on rendered text and ARIA attributes, never on internals.
