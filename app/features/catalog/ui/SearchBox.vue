@@ -50,7 +50,7 @@ function clear() {
       <kbd
         v-else
         aria-hidden="true"
-        class="border-line text-muted hidden rounded-[6px] border px-1.5 font-sans text-xs lg:block"
+        class="border-line text-muted rounded-badge hidden border px-1.5 font-sans text-xs lg:block"
       >
         /
       </kbd>

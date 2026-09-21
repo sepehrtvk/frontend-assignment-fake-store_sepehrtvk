@@ -8,7 +8,7 @@
         class="border-line bg-surface rounded-card grid gap-3 border p-2 pb-4"
       >
         <div
-          class="bg-sunken rounded-chip aspect-[247/170] animate-pulse motion-reduce:animate-none"
+          class="bg-sunken rounded-chip aspect-247/170 animate-pulse motion-reduce:animate-none"
         ></div>
         <div class="bg-sunken mx-2 h-4 animate-pulse rounded motion-reduce:animate-none"></div>
         <div

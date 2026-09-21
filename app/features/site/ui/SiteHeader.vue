@@ -18,16 +18,16 @@ watch(
 </script>
 
 <template>
-  <header class="bg-surface rounded-b-[32px]">
+  <header class="bg-surface rounded-b-4xl">
     <div
-      class="mx-auto flex h-18 max-w-[1360px] items-center justify-between gap-4 px-4 lg:h-30 lg:px-10"
+      class="mx-auto flex h-18 max-w-340 items-center justify-between gap-4 px-4 lg:h-30 lg:px-10"
     >
       <div class="flex items-center gap-4">
         <IconButton
           name="menu"
           label="باز کردن فهرست"
           :size="20"
-          class="border-line text-brand size-10 rounded-[8px] border-[1.5px] lg:hidden"
+          class="border-line text-brand size-10 rounded-lg border-[1.5px] lg:hidden"
           aria-haspopup="dialog"
           :aria-expanded="menuOpen"
           @click="menuOpen = true"
@@ -56,7 +56,7 @@ watch(
       <a
         href="tel:+989120532128"
         aria-label="تماس با فروشگاه"
-        class="border-line text-brand hover:border-brand focus-visible:outline-brand grid size-10 place-items-center rounded-[8px] border-[1.5px] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 lg:hidden"
+        class="border-line text-brand hover:border-brand focus-visible:outline-brand grid size-10 place-items-center rounded-lg border-[1.5px] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 lg:hidden"
       >
         <AppIcon name="phone" :size="20" />
       </a>

@@ -22,7 +22,7 @@ const hint = computed(() =>
 <template>
   <SiteHeader />
 
-  <main class="mx-auto grid max-w-[1360px] justify-items-center gap-6 px-4 py-16 lg:px-10">
+  <main class="mx-auto grid max-w-340 justify-items-center gap-6 px-4 py-16 lg:px-10">
     <EmptyState class="w-full max-w-xl" :title="title" :hint="hint" />
     <PrimaryButton class="rounded-chip text-sm" @click="clearError({ redirect: '/' })">
       بازگشت به لیست محصولات

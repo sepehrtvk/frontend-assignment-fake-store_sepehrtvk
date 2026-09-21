@@ -24,14 +24,14 @@ const zoomed = ref(false)
         <FadeInImage
           :src="product.image"
           :alt="product.title"
-          class="max-h-[420px] w-full object-contain p-6"
+          class="max-h-105 w-full object-contain p-6"
         />
       </div>
       <IconButton
         name="zoom"
         label="بزرگ‌نمایی تصویر"
         :size="24"
-        class="bg-title/70 absolute start-4 top-4 size-10 rounded-full text-white"
+        class="bg-title/70 absolute inset-s-4 top-4 size-10 rounded-full text-white"
         @click="zoomed = true"
       />
     </div>
@@ -47,7 +47,7 @@ const zoomed = ref(false)
           name="close"
           label="بستن تصویر"
           :size="20"
-          class="bg-title/70 absolute end-4 top-4 size-10 rounded-full text-white"
+          class="bg-title/70 absolute inset-e-4 top-4 size-10 rounded-full text-white"
           @click="zoomed = false"
         />
       </div>

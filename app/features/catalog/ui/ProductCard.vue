@@ -16,7 +16,7 @@ const title = computed(() => splitByMatch(props.product.title, props.highlight ?
     class="border-line bg-surface rounded-card focus-visible:outline-brand group hover:shadow-title/10 grid content-start gap-3 border p-2 pb-4 transition duration-300 ease-out hover:-translate-y-1 hover:shadow-lg focus-visible:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0"
   >
     <div
-      class="bg-sunken rounded-chip aspect-[247/170] overflow-hidden"
+      class="bg-sunken rounded-chip aspect-247/170 overflow-hidden"
       :style="{ viewTransitionName: `product-${product.id}` }"
     >
       <FadeInImage

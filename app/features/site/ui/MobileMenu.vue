@@ -13,7 +13,7 @@ const open = defineModel<boolean>('open', { required: true })
     v-model:open="open"
     label="فهرست اصلی"
     from="top"
-    class="bg-surface mt-0 mb-auto w-full max-w-full rounded-b-[32px]"
+    class="bg-surface mt-0 mb-auto w-full max-w-full rounded-b-4xl"
   >
     <div class="border-line flex items-center justify-between border-b p-4">
       <span class="text-title font-bold">فهرست</span>

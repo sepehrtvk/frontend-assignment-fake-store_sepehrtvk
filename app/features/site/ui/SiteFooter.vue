@@ -30,9 +30,9 @@ const bottomSocials: { label: string; icon: IconName }[] = [
 </script>
 
 <template>
-  <footer class="bg-surface mt-12 rounded-t-[32px]">
+  <footer class="bg-surface mt-12 rounded-t-4xl">
     <div
-      class="mx-auto grid max-w-[1360px] gap-10 px-4 py-12 lg:grid-cols-[1fr_auto_auto_auto] lg:px-10"
+      class="mx-auto grid max-w-340 gap-10 px-4 py-12 lg:grid-cols-[1fr_auto_auto_auto] lg:px-10"
     >
       <p class="text-label text-[13px] lg:order-last">
         هفت روز هفته از ۸ صبح تا ۱۲ شب پاسخگو هستیم
@@ -62,7 +62,7 @@ const bottomSocials: { label: string; icon: IconName }[] = [
 
     <div class="bg-sunken">
       <div
-        class="text-label mx-auto grid max-w-[1360px] justify-items-center gap-6 px-4 py-8 text-center text-[13px] lg:px-10"
+        class="text-label mx-auto grid max-w-340 justify-items-center gap-6 px-4 py-8 text-center text-[13px] lg:px-10"
       >
         <p>
           تمامی حقوق مادی و معنوی این وبسایت متعلق به آن می‌باشد و هر گونه کپی‌برداری پیگرد قانونی
