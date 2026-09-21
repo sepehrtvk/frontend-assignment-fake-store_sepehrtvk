@@ -23,7 +23,7 @@ function toggle(category: string) {
 </script>
 
 <template>
-  <div class="grid gap-4">
+  <div class="grid content-start gap-4">
     <FilterCard title="فیلتر و جستجو">
       <SearchBox :search="filters.search" @submit="search" />
     </FilterCard>
