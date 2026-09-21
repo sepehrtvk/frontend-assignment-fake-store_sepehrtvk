@@ -4,6 +4,8 @@ A product list and product detail page built with **Nuxt 4**, **Vue 3** and **Ty
 matching the Figma design and backed by the [Fake Store API](https://fakestoreapi.com).
 The interface is Persian and right-to-left, as the design is.
 
+**Live:** <https://maz.sepehtvk.online>
+
 ![Product list](screenshots/list-desktop.png)
 
 ## Quick start
