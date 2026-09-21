@@ -3,6 +3,7 @@ import { ref, watch } from 'vue'
 import AppIcon from '~/shared/ui/AppIcon.vue'
 import IconButton from '~/shared/ui/IconButton.vue'
 import MobileMenu from './MobileMenu.vue'
+import SiteLink from './SiteLink.vue'
 import { navLinks } from './site.nav'
 
 const route = useRoute()
@@ -31,28 +32,23 @@ watch(
           :aria-expanded="menuOpen"
           @click="menuOpen = true"
         />
-        <NuxtLink to="/" class="text-title flex items-center gap-2 text-lg font-bold">
+        <NuxtLink
+          to="/"
+          :aria-current="undefined"
+          class="text-title flex items-center gap-2 text-lg font-bold"
+        >
           <AppIcon name="box" :size="24" class="text-brand" />
           فروشگاه
         </NuxtLink>
       </div>
 
       <nav class="hidden lg:block">
-        <ul class="flex items-center gap-8">
+        <ul class="text-title flex items-center gap-8 text-[13px] font-medium">
           <li v-for="link in navLinks" :key="link.label">
-            <NuxtLink
-              v-if="link.to"
-              :to="link.to"
-              class="text-title flex items-center gap-2 text-[13px] font-medium"
-              active-class="text-brand"
-            >
+            <SiteLink :to="link.to" :current="link.current">
               <AppIcon :name="link.icon" />
               {{ link.label }}
-            </NuxtLink>
-            <span v-else class="text-title flex items-center gap-2 text-[13px] font-medium">
-              <AppIcon :name="link.icon" />
-              {{ link.label }}
-            </span>
+            </SiteLink>
           </li>
         </ul>
       </nav>

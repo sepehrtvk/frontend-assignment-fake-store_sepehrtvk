@@ -28,11 +28,26 @@ describe('MobileMenu', () => {
     expect(wrapper.text()).toContain('تماس با ما')
   })
 
-  it('links only the entries that lead somewhere', () => {
+  it('links every entry, to the list until the other pages exist', () => {
     const links = mountMenu().findAllComponents(RouterLinkStub)
 
-    expect(links).toHaveLength(1)
-    expect(links[0]?.props('to')).toBe('/')
+    expect(links).toHaveLength(4)
+    expect(links.every((link) => link.props('to') === '/')).toBe(true)
+  })
+
+  it('marks only the products entry as the current page', () => {
+    const current = mountMenu().findAll('[aria-current="page"]')
+
+    expect(current).toHaveLength(1)
+    expect(current[0]?.text()).toContain('لیست محصولات')
+  })
+
+  it('closes when an entry is chosen, even one that leads to this page', async () => {
+    const wrapper = mountMenu()
+
+    await wrapper.findAllComponents(RouterLinkStub)[1]?.trigger('click')
+
+    expect(wrapper.emitted('update:open')?.at(-1)).toEqual([false])
   })
 
   it('closes when the close button is pressed', async () => {

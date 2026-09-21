@@ -2,6 +2,7 @@
 import AppDialog from '~/shared/ui/AppDialog.vue'
 import AppIcon from '~/shared/ui/AppIcon.vue'
 import IconButton from '~/shared/ui/IconButton.vue'
+import SiteLink from './SiteLink.vue'
 import { navLinks } from './site.nav'
 
 const open = defineModel<boolean>('open', { required: true })
@@ -25,21 +26,12 @@ const open = defineModel<boolean>('open', { required: true })
     </div>
 
     <nav>
-      <ul class="grid gap-1 p-4">
-        <li v-for="link in navLinks" :key="link.label">
-          <NuxtLink
-            v-if="link.to"
-            :to="link.to"
-            class="text-body hover:bg-sunken flex items-center gap-3 rounded-[12px] p-3 text-sm font-bold"
-            active-class="text-brand"
-          >
+      <ul class="text-body grid gap-1 p-4 text-sm font-bold">
+        <li v-for="link in navLinks" :key="link.label" class="p-3">
+          <SiteLink :to="link.to" :current="link.current" @click="open = false">
             <AppIcon :name="link.icon" />
             {{ link.label }}
-          </NuxtLink>
-          <span v-else class="text-muted flex items-center gap-3 p-3 text-sm">
-            <AppIcon :name="link.icon" />
-            {{ link.label }}
-          </span>
+          </SiteLink>
         </li>
       </ul>
     </nav>

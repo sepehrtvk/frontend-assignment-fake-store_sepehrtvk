@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AppIcon from '~/shared/ui/AppIcon.vue'
 import type { IconName } from '~/shared/ui/icons'
+import SiteLink from './SiteLink.vue'
 
 const columns: { title: string; items: string[] }[] = [
   {
@@ -19,7 +20,13 @@ const socials: { label: string; icon: IconName }[] = [
   { label: 'لینکدین', icon: 'linkedin' },
 ]
 
-const bottomSocials: IconName[] = ['telegram', 'instagram', 'twitter', 'youtube', 'linkedin']
+const bottomSocials: { label: string; icon: IconName }[] = [
+  { label: 'تلگرام', icon: 'telegram' },
+  { label: 'اینستاگرام', icon: 'instagram' },
+  { label: 'توییتر', icon: 'twitter' },
+  { label: 'یوتیوب', icon: 'youtube' },
+  { label: 'لینکدین', icon: 'linkedin' },
+]
 </script>
 
 <template>
@@ -33,21 +40,21 @@ const bottomSocials: IconName[] = ['telegram', 'instagram', 'twitter', 'youtube'
 
       <div v-for="column in columns" :key="column.title" class="grid content-start gap-4">
         <p class="text-body text-xl font-bold">{{ column.title }}</p>
-        <ul class="text-body grid gap-2">
-          <li v-for="item in column.items" :key="item" class="text-[13px]">{{ item }}</li>
+        <ul class="text-body grid justify-items-start gap-2 text-[13px]">
+          <li v-for="item in column.items" :key="item">
+            <SiteLink to="/">{{ item }}</SiteLink>
+          </li>
         </ul>
       </div>
 
       <div class="grid content-start gap-4">
         <p class="text-body text-xl font-bold">شبکه‌های اجتماعی</p>
-        <ul class="text-body grid gap-2">
-          <li
-            v-for="social in socials"
-            :key="social.label"
-            class="flex items-center gap-2 text-[13px]"
-          >
-            <AppIcon :name="social.icon" :size="24" class="text-brand" />
-            {{ social.label }}
+        <ul class="text-body grid justify-items-start gap-2 text-[13px]">
+          <li v-for="social in socials" :key="social.label">
+            <SiteLink to="/">
+              <AppIcon :name="social.icon" :size="24" class="text-brand" />
+              {{ social.label }}
+            </SiteLink>
           </li>
         </ul>
       </div>
@@ -62,8 +69,15 @@ const bottomSocials: IconName[] = ['telegram', 'instagram', 'twitter', 'youtube'
           دارد.
         </p>
         <ul class="flex items-center gap-4">
-          <li v-for="icon in bottomSocials" :key="icon" class="text-brand">
-            <AppIcon :name="icon" :size="24" />
+          <li v-for="social in bottomSocials" :key="social.label">
+            <NuxtLink
+              to="/"
+              :aria-label="social.label"
+              :aria-current="undefined"
+              class="text-brand focus-visible:outline-brand block transition duration-200 hover:-translate-y-0.5 hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transition-none"
+            >
+              <AppIcon :name="social.icon" :size="24" />
+            </NuxtLink>
           </li>
         </ul>
       </div>
