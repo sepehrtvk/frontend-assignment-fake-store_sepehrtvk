@@ -49,4 +49,14 @@ describe('ProductHero', () => {
     expect(images).toHaveLength(2)
     expect(images[1]?.attributes('alt')).toBe('Fjallraven Foldsack No. 1 Backpack')
   })
+
+  it('gives its photo the name the product card used, so one morphs into the other', () => {
+    expect(mountHero().find('[style*="view-transition-name"]').attributes('style')).toContain(
+      'view-transition-name: product-1',
+    )
+  })
+
+  it('leaves the enlarged copy unnamed, since a name may appear only once on a page', () => {
+    expect(mountHero().findAll('[style*="view-transition-name"]')).toHaveLength(1)
+  })
 })

@@ -40,4 +40,10 @@ describe('ProductCard', () => {
   it('lets an english title render left to right inside the rtl page', () => {
     expect(mountCard().find('p').attributes('dir')).toBe('ltr')
   })
+
+  it('names its photo so the product page can morph out of it', () => {
+    expect(mountCard().find('[style*="view-transition-name"]').attributes('style')).toContain(
+      'view-transition-name: product-1',
+    )
+  })
 })

@@ -5,6 +5,9 @@ export default defineNuxtConfig({
   compatibilityDate: '2026-09-20',
   devtools: { enabled: true },
   modules: ['@nuxt/eslint'],
+  experimental: {
+    viewTransition: true,
+  },
   css: ['~/assets/styles/main.css'],
   app: {
     head: {

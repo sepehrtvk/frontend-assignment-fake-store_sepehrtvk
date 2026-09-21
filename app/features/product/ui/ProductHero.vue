@@ -17,11 +17,16 @@ const zoomed = ref(false)
     </h1>
 
     <div class="relative">
-      <FadeInImage
-        :src="product.image"
-        :alt="product.title"
-        class="bg-sunken rounded-chip max-h-[420px] w-full object-contain p-6"
-      />
+      <div
+        class="bg-sunken rounded-chip overflow-hidden"
+        :style="{ viewTransitionName: `product-${product.id}` }"
+      >
+        <FadeInImage
+          :src="product.image"
+          :alt="product.title"
+          class="max-h-[420px] w-full object-contain p-6"
+        />
+      </div>
       <IconButton
         name="zoom"
         label="بزرگ‌نمایی تصویر"
