@@ -1,14 +1,26 @@
 <script setup lang="ts">
 import { fetchProduct } from '~/features/catalog/api/products.api'
+import type { Product } from '~/features/catalog/model/product.types'
 import BreadcrumbTrail from '~/features/product/ui/BreadcrumbTrail.vue'
 import ProductHero from '~/features/product/ui/ProductHero.vue'
 import ProductSpecs from '~/features/product/ui/ProductSpecs.vue'
 
+function productFromList(list: unknown, id: number): Product | undefined {
+  return Array.isArray(list) ? list.find((product: Product) => product.id === id) : undefined
+}
+
 const route = useRoute()
 const id = Number(route.params.id)
 
-const { data: product } = await useAsyncData(`product:${id}`, () =>
-  Number.isInteger(id) ? fetchProduct(id) : Promise.resolve(null),
+const { data: product } = await useAsyncData(
+  `product:${id}`,
+  () => (Number.isInteger(id) ? fetchProduct(id) : Promise.resolve(null)),
+  {
+    getCachedData: (key, nuxtApp, { cause }) =>
+      cause === 'refresh:manual'
+        ? undefined
+        : (nuxtApp.payload.data[key] ?? productFromList(nuxtApp.payload.data.products, id)),
+  },
 )
 
 if (!product.value) {

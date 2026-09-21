@@ -32,7 +32,10 @@ const {
   status: allStatus,
   error: allError,
   refresh: refreshAll,
-} = await useAsyncData('products', fetchProducts)
+} = await useAsyncData('products', fetchProducts, {
+  getCachedData: (key, nuxtApp, { cause }) =>
+    cause === 'refresh:manual' ? undefined : nuxtApp.payload.data[key],
+})
 
 const {
   data: scoped,
@@ -43,6 +46,10 @@ const {
   () => `products:${categories.value.join(',')}`,
   () =>
     categories.value.length ? fetchProductsInCategories(categories.value) : Promise.resolve(null),
+  {
+    getCachedData: (key, nuxtApp, { cause }) =>
+      cause === 'refresh:manual' ? undefined : nuxtApp.payload.data[key],
+  },
 )
 
 const loading = computed(() => allStatus.value === 'pending' || scopedStatus.value === 'pending')
