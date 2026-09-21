@@ -24,7 +24,12 @@ const { data: product } = await useAsyncData(
 )
 
 if (!product.value) {
-  throw createError({ statusCode: 404, statusMessage: 'این محصول پیدا نشد', fatal: true })
+  throw createError({
+    statusCode: 404,
+    statusMessage: 'Product Not Found',
+    message: 'این محصول پیدا نشد',
+    fatal: import.meta.client,
+  })
 }
 
 useSeoMeta({
