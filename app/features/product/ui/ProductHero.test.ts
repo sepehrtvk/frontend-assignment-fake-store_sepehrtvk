@@ -34,6 +34,15 @@ describe('ProductHero', () => {
     expect(wrapper.find('dialog').element.open).toBe(true)
   })
 
+  it('closes the enlarged image from its own close button', async () => {
+    const wrapper = mountHero()
+
+    await wrapper.get('button[aria-label="بزرگ‌نمایی تصویر"]').trigger('click')
+    await wrapper.get('button[aria-label="بستن تصویر"]').trigger('click')
+
+    expect(wrapper.find('dialog').element.open).toBe(false)
+  })
+
   it('describes the enlarged image too', () => {
     const images = mountHero().findAll('img')
 

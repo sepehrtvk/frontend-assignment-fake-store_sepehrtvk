@@ -30,12 +30,21 @@ const zoomed = ref(false)
       />
     </div>
 
-    <AppDialog
-      v-model:open="zoomed"
-      label="تصویر محصول"
-      class="bg-surface rounded-card max-w-[90vw] p-4"
-    >
-      <img :src="product.image" :alt="product.title" class="max-h-[80dvh] w-auto object-contain" />
+    <AppDialog v-model:open="zoomed" label="تصویر محصول" class="bg-surface rounded-card">
+      <div class="relative p-4">
+        <img
+          :src="product.image"
+          :alt="product.title"
+          class="max-h-[85dvh] max-w-full object-contain"
+        />
+        <IconButton
+          name="close"
+          label="بستن تصویر"
+          :size="20"
+          class="bg-title/70 absolute end-4 top-4 size-10 rounded-full text-white"
+          @click="zoomed = false"
+        />
+      </div>
     </AppDialog>
   </section>
 </template>
