@@ -53,17 +53,20 @@ watch(
         </ul>
       </nav>
 
-      <span
-        class="border-line text-brand grid size-10 place-items-center rounded-[8px] border-[1.5px] lg:hidden"
+      <a
+        href="tel:+989120532128"
+        aria-label="تماس با فروشگاه"
+        class="border-line text-brand hover:border-brand focus-visible:outline-brand grid size-10 place-items-center rounded-[8px] border-[1.5px] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 lg:hidden"
       >
         <AppIcon name="phone" :size="20" />
-      </span>
-      <span
-        class="bg-brand rounded-chip hidden items-center gap-2 px-4 py-3 text-sm font-bold text-white lg:flex"
+      </a>
+      <a
+        href="tel:+989120532128"
+        class="bg-brand rounded-chip focus-visible:outline-brand hover:shadow-brand/30 hidden items-center gap-2 px-4 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transition-none lg:flex"
       >
         <AppIcon name="phone" />
         تماس
-      </span>
+      </a>
     </div>
 
     <MobileMenu v-model:open="menuOpen" />
