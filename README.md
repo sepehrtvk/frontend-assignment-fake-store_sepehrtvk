@@ -19,7 +19,7 @@ npm run dev        # http://localhost:3000
 | `npm run dev`     | dev server                                 |
 | `npm run build`   | format check, lint, type check, then build |
 | `npm run preview` | serve the production build                 |
-| `npm test`        | 128 tests across 19 files                  |
+| `npm test`        | 137 tests across 19 files                  |
 
 ## Docker
 
@@ -80,11 +80,14 @@ under the field, which settles it: no debounce, no cancelled request, one histor
 Searching descriptions would make "shirt" match half the catalogue for reasons the user cannot see.
 A Persian query returns nothing, because the data is English — that empty state is working correctly.
 
-**Filtering and sorting happen client-side.** The API has no search, `?sort` only orders by id, and
-all 20 products arrive in one response. A round trip per click would be slower and no more correct.
-Category counts are derived from that same payload rather than from `/products/categories`, so a
-badge can never disagree with the grid. Persian category names are a hand-written map keyed by the
-API's own slugs, its `jewelery` misspelling included.
+**Categories go through the API; search and sort cannot.** Ticking a category calls
+`/products/category/:name`, one request per category in parallel, and the skeleton covers the wait.
+The API has nothing else to offer: every query parameter on `/products` (`?q=`, `?title=`,
+`?search=`, `?category=`) is ignored and all 20 products come back, `/products/search` is read as a
+product id, and `?sort` orders by id only. So search and sort run on the list already fetched, and
+are instant. The full list is fetched once regardless, because the category counts need it; with
+no category ticked the page uses it directly. Persian category names are a hand-written map keyed
+by the API's own slugs, its `jewelery` misspelling included.
 
 **Prices are dollars, not تومان.** The design shows تومان but the API's prices are USD, and
 converting them needs an exchange rate this app has no source for. Digits are Persian via `Intl`,
@@ -109,11 +112,12 @@ so the two cannot drift apart.
 **Fonts are substituted.** Yekan Bakh and IRANYekan are commercial and not redistributable.
 Vazirmatn (SIL OFL) is self-hosted in their place — two subsets, 80 KB, no CDN.
 
-**Chrome that leads nowhere is text, not controls.** Three nav entries, the contact pill and the
-footer links have no destination in an app that is a list and a detail page. They are drawn as
-designed but rendered as text: a control that does nothing when pressed is worse than one never
-offered. The design's tablet-only «درب‌های موجود» toggle is left out for the same reason — no API
-field backs it.
+**Navigation entries link to `/` until their pages exist.** Every header, menu and footer entry is
+a real link with a colour and underline animation on hover and focus. Because they all point to the
+same URL, RouterLink would mark every one `aria-current="page"`; the attribute is set explicitly so
+only «لیست محصولات» carries it. The تماس button dials `tel:+989120532128`. The tablet frame's
+«درب‌های موجود» toggle is left out: no API field backs it, and a control that filters nothing is a
+lie about the data.
 
 **Nothing extra is installed.** At runtime only `nuxt`, `vue` and `vue-router`. No axios (native
 `fetch`), no UI kit, no `@nuxt/image` (remote optimisation needs a provider; the real problem,
@@ -126,8 +130,8 @@ keyless API.
 npm test
 ```
 
-128 tests in 19 files, co-located with what they test. Covered: the API mapping and each error it
-can throw, including the 200-with-empty-body; reading and writing filters in the URL; all four
+137 tests in 19 files, co-located with what they test. Covered: the API mapping and each error it
+can throw, including the 200-with-empty-body, and the per-category requests; reading and writing filters in the URL; all four
 sorts; category counting; number formatting; and every component that takes props and emits events.
 Assertions are on rendered text and ARIA attributes, never on internals.
 
