@@ -81,7 +81,7 @@ function retry() {
     class="mx-auto grid max-w-[1360px] gap-6 px-4 py-6 lg:grid-cols-[266px_minmax(0,1fr)] lg:px-10"
   >
     <FilterPanel
-      class="hidden lg:grid"
+      class="hidden lg:sticky lg:top-6 lg:grid lg:max-h-[calc(100dvh-3rem)] lg:self-start lg:overflow-y-auto lg:overscroll-contain"
       :filters="filters"
       :facets="facets"
       @update:filters="update"
