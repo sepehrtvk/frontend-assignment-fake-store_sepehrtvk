@@ -1,5 +1,5 @@
 import tailwindcss from '@tailwindcss/vite'
-import svgLoader from 'vite-svg-loader'
+import { iconLoader } from './icons.config'
 
 export default defineNuxtConfig({
   compatibilityDate: '2026-09-20',
@@ -17,6 +17,6 @@ export default defineNuxtConfig({
     },
   },
   vite: {
-    plugins: [tailwindcss(), svgLoader()],
+    plugins: [tailwindcss(), iconLoader()],
   },
 })
