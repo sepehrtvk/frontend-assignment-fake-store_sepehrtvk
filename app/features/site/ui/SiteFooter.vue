@@ -57,7 +57,7 @@ const badges = [
       <div class="grid content-start gap-6">
         <p class="text-body text-xl leading-6 font-bold">شبکه‌های اجتماعی</p>
         <ul class="text-body grid justify-items-start gap-4 text-sm leading-6 font-medium">
-          <li v-for="social in socials" :key="social.label">
+          <li v-for="social in socials" :key="social.label" class="flex">
             <SiteLink to="/" class="gap-3">
               <AppIcon
                 :name="social.icon"
