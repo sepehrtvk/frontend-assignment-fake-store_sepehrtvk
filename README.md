@@ -21,7 +21,7 @@ npm run dev        # http://localhost:3000
 | `npm run dev`     | dev server                                 |
 | `npm run build`   | format check, lint, type check, then build |
 | `npm run preview` | serve the production build                 |
-| `npm test`        | 165 tests across 22 files                  |
+| `npm test`        | 170 tests across 23 files                  |
 
 ## Docker
 
@@ -148,7 +148,7 @@ keyless API.
 npm test
 ```
 
-165 tests in 22 files, co-located with what they test. Covered: the API mapping and each error it
+170 tests in 23 files, co-located with what they test. Covered: the API mapping and each error it
 can throw, including the 200-with-empty-body, and the per-category requests; reading and writing filters in the URL; all four
 sorts; category counting; number formatting; and every component that takes props and emits events.
 Assertions are on rendered text and ARIA attributes, never on internals.
