@@ -29,7 +29,7 @@ const open = defineModel<boolean>('open', { required: true })
     <nav>
       <ul class="text-body grid gap-1 p-4 text-sm font-bold">
         <li v-for="link in navLinks" :key="link.label" class="p-3">
-          <SiteLink :to="link.to" :current="link.current" @click="open = false">
+          <SiteLink :to="link.to" :current="link.current" class="gap-3" @click="open = false">
             <AppIcon :name="link.icon" />
             {{ link.label }}
           </SiteLink>

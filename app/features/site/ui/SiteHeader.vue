@@ -45,7 +45,7 @@ watch(
       <nav class="hidden lg:block">
         <ul class="text-title flex items-center gap-8 text-[13px] font-medium">
           <li v-for="link in navLinks" :key="link.label">
-            <SiteLink :to="link.to" :current="link.current">
+            <SiteLink :to="link.to" :current="link.current" class="gap-2">
               <AppIcon :name="link.icon" />
               {{ link.label }}
             </SiteLink>

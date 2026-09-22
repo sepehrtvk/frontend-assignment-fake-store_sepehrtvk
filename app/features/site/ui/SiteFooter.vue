@@ -39,26 +39,26 @@ const badges = [
 <template>
   <footer class="bg-surface mt-12 rounded-t-4xl">
     <div
-      class="mx-auto grid max-w-318 gap-10 px-4 py-12 lg:grid-cols-[1fr_auto_auto_auto] lg:px-20"
+      class="mx-auto grid max-w-318 grid-cols-2 gap-x-6 gap-y-10 px-4 pt-10 pb-11 lg:flex lg:justify-between lg:px-20 lg:pe-29"
     >
-      <p class="text-label text-[13px] lg:order-last">
+      <p class="text-label hidden text-[13px] leading-6 font-medium lg:block lg:self-end lg:pb-4">
         هفت روز هفته از ۸ صبح تا ۱۲ شب پاسخگو هستیم
       </p>
 
-      <div v-for="column in columns" :key="column.title" class="grid content-start gap-4">
-        <p class="text-body text-xl font-bold">{{ column.title }}</p>
-        <ul class="text-body grid justify-items-start gap-2 text-[13px]">
+      <div v-for="column in columns" :key="column.title" class="grid content-start gap-6">
+        <p class="text-body text-xl leading-6 font-bold">{{ column.title }}</p>
+        <ul class="text-body grid justify-items-start gap-3 text-[13px] leading-6 font-medium">
           <li v-for="item in column.items" :key="item">
             <SiteLink to="/">{{ item }}</SiteLink>
           </li>
         </ul>
       </div>
 
-      <div class="grid content-start gap-4">
-        <p class="text-body text-xl font-bold">شبکه‌های اجتماعی</p>
-        <ul class="text-body grid justify-items-start gap-2 text-[13px]">
+      <div class="grid content-start gap-6">
+        <p class="text-body text-xl leading-6 font-bold">شبکه‌های اجتماعی</p>
+        <ul class="text-body grid justify-items-start gap-4 text-sm leading-6 font-medium">
           <li v-for="social in socials" :key="social.label">
-            <SiteLink to="/">
+            <SiteLink to="/" class="gap-3">
               <AppIcon :name="social.icon" :size="24" class="text-brand" />
               {{ social.label }}
             </SiteLink>
