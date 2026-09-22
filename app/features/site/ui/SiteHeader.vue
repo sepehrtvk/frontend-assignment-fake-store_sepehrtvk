@@ -20,7 +20,7 @@ watch(
 <template>
   <header class="bg-surface rounded-b-4xl">
     <div
-      class="mx-auto flex h-18 max-w-340 items-center justify-between gap-4 px-4 lg:h-30 lg:px-10"
+      class="mx-auto flex h-18 max-w-318 items-center justify-between gap-4 px-4 lg:h-30 lg:px-20"
     >
       <div class="flex items-center gap-4">
         <IconButton
