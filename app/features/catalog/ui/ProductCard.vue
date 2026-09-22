@@ -30,7 +30,7 @@ const title = computed(() => splitByMatch(props.product.title, props.highlight ?
     <p
       dir="ltr"
       lang="en"
-      class="text-title line-clamp-2 min-h-12 px-2 text-right text-sm font-bold"
+      class="text-title line-clamp-2 min-h-12 px-2 text-right text-sm leading-6 font-bold"
     >
       <template v-for="(part, index) in title" :key="index">
         <mark v-if="part.match" class="bg-brand-soft text-brand rounded-sm">{{ part.text }}</mark>
