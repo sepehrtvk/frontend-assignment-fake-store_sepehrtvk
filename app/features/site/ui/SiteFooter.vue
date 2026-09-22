@@ -23,11 +23,11 @@ const socials: { label: string; icon: IconName }[] = [
 ]
 
 const bottomSocials: { label: string; icon: IconName }[] = [
-  { label: 'تلگرام', icon: 'telegram' },
-  { label: 'اینستاگرام', icon: 'instagram' },
-  { label: 'توییتر', icon: 'twitter' },
-  { label: 'یوتیوب', icon: 'youtube' },
   { label: 'لینکدین', icon: 'linkedin' },
+  { label: 'یوتیوب', icon: 'youtube' },
+  { label: 'توییتر', icon: 'twitter' },
+  { label: 'اینستاگرام', icon: 'instagram' },
+  { label: 'تلگرام', icon: 'telegram' },
 ]
 
 const badges = [
@@ -59,7 +59,11 @@ const badges = [
         <ul class="text-body grid justify-items-start gap-4 text-sm leading-6 font-medium">
           <li v-for="social in socials" :key="social.label">
             <SiteLink to="/" class="gap-3">
-              <AppIcon :name="social.icon" :size="24" class="text-brand" />
+              <AppIcon
+                :name="social.icon"
+                :size="24"
+                class="text-muted group-hover:text-brand group-focus-visible:text-brand transition-colors duration-200"
+              />
               {{ social.label }}
             </SiteLink>
           </li>
@@ -82,9 +86,9 @@ const badges = [
                 to="/"
                 :aria-label="social.label"
                 :aria-current="undefined"
-                class="text-brand focus-visible:outline-brand block transition duration-200 hover:-translate-y-0.5 hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transition-none"
+                class="text-brand-light hover:text-brand focus-visible:text-brand focus-visible:outline-brand block transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transition-none"
               >
-                <AppIcon :name="social.icon" :size="24" />
+                <AppIcon :name="social.icon" :size="24" class="size-5 lg:size-6" />
               </NuxtLink>
             </li>
           </ul>
